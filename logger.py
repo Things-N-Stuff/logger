@@ -5,12 +5,13 @@ from discord.ext import commands
 import discord
 
 # Import Config
-from config import auditlog_id
-from config import bot_admins
-from config import bot_prefix
-from config import bot_token
-from config import msglog_id
-from config import vclog_id
+try:
+    from config import (auditlog_id, bot_admins, bot_prefix, bot_token,
+                        msglog_id, vclog_id, sent_color, changed_color,
+                        deleted_color)
+except:
+    print('config.py not found. Check the README.md.')
+    exit(1)
 
 
 # Setup commands.Bot with some base variables
@@ -32,6 +33,11 @@ async def send_to_log(channel_id, embed, *args, **kwargs):
     channel = bot.get_channel(channel_id)
     await channel.send(embed=embed)
 
+### MESSAGES ###
+
+# Log Messages
+# async def log_messages
+
 # Log Messages Sent
 @bot.event
 async def on_message(message):
@@ -51,7 +57,7 @@ async def on_message(message):
     em = discord.Embed(title=f"{message.author}",
                        description=f"{message.content} {a}\n" \
                        f"[jump to message]({message.jump_url})",
-                       colour=0xE3E5E8)
+                       colour=sent_color)
     em.set_footer(text=f"Author ID: {message.author.id}\n" \
                   f"Message ID: {message.id}")
     em.set_thumbnail(url=message.author.avatar_url)
@@ -91,7 +97,7 @@ async def on_message_edit(before, after):
                        description=f"Before:\n{before.content} {a_old}\n\n" \
                        f"After:\n{after.content} {a}\n" \
                        f"[jump to message]({after.jump_url})",
-                       color=0xFAA61A)
+                       color=changed_color)
     em.set_footer(text=f"Author ID: {after.author.id}\n" \
                   f"Message ID: {after.id}")
     em.set_thumbnail(url=after.author.avatar_url)
@@ -120,7 +126,7 @@ async def on_message_delete(message):
     em = discord.Embed(title=f"{message.author}",
                        description=f"{message.content} {a}\n" \
                        f"[jump to message]({message.jump_url})",
-                       color=0xF04747)
+                       color=deleted_color)
     em.set_footer(text=f"Author ID: {message.author.id}\n" \
                   f"Message ID: {message.id}")
     em.set_thumbnail(url=message.author.avatar_url)
@@ -130,48 +136,50 @@ async def on_message_delete(message):
     # Send Message to Log Channel
     await send_to_log(channel_id=msglog_id, embed=em)
 
-# Log Reactions Added
-@bot.event
-async def on_reaction_add(reaction, user):
+### REACTIONS ###
+
+# Log Reactions
+async def log_reactions(reaction, user, action):
     # Don't Log Direct Messages
     if reaction.message.guild == None:
         return 0
 
+    # Set variables based on action type
+    if action == "add":
+        color = sent_color
+        log_action = "Sent"
+    elif action == "remove":
+        color = deleted_color
+        log_action = "Deleted"
+    else:
+        print(f"Varible `action` is {action} instead of 'add' or 'remove'")
+        return 1
+
     # Create Embed
     em = discord.Embed(title=f"{user}",
-                       description=f"Reacted with:\n:{reaction.emoji.name}:\n" \
+                       description="Reacted with:\n" \
+                       f":{reaction.emoji.name}:\n" \
                        f"[jump to message]({reaction.message.jump_url})",
-                       color=0xE3E5E8)
-    em.set_footer(text=f"Author ID: {user.id}\n" \
+                       color=color)
+    em.set_footer(text=f"Author ID: {user.id}\n"
                   f"Message ID: {reaction.message.id}")
     em.set_image(url=reaction.emoji.url)
     em.set_thumbnail(url=user.avatar_url)
-    em.set_author(name=f"Reaction Sent in #{reaction.message.channel}",
+    em.set_author(name=f"Reaction {log_action} in #{reaction.message.channel}",
                   icon_url=bot.user.avatar_url)
 
     # Send Message to Log Channel
     await send_to_log(channel_id=msglog_id, embed=em)
+
+# Log Reactions Added
+@bot.event
+async def on_reaction_add(reaction, user):
+    await log_reactions(reaction=reaction, user=user, action="add")
 
 # Log Reactions Removed
 @bot.event
 async def on_reaction_remove(reaction, user):
-    # Don't Log Direct Messages
-    if reaction.message.guild == None:
-        return 0
+    await log_reactions(reaction=reaction, user=user, action="remove")
 
-    # Create Embed
-    em = discord.Embed(title=f"{user}",
-                       description=f"Reacted with:\n:{reaction.emoji.name}:\n" \
-                       f"[jump to message]({reaction.message.jump_url})",
-                       color=0xF04747)
-    em.set_footer(text=f"Author ID: {user.id}\n" \
-                  f"Message ID: {reaction.message.id}")
-    em.set_image(url=reaction.emoji.url)
-    em.set_thumbnail(url=user.avatar_url)
-    em.set_author(name=f"Reaction Removed in #{reaction.message.channel}",
-                  icon_url=bot.user.avatar_url)
-
-    # Send Message to Log Channel
-    await send_to_log(channel_id=msglog_id, embed=em)
 
 bot.run(bot_token)
