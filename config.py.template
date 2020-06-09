@@ -17,5 +17,10 @@ vclog_id =
 # Tuple of user ids that can issue commands to the bot
 bot_admins = ( user_id1, user_id2, user_id3, )
 
+# Colors the bot will use for embeds
+sent_color = 0xE3E5E8 
+changed_color = 0xFAA61A 
+deleted_color = 0xF04747
+
 # Command prefix for the bot
-bot_prefix = './l'
+bot_prefix = './l '
