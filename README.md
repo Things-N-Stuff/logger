@@ -7,9 +7,9 @@ This bot has only been tested on one server at a time.
    - [x] Sent
    - [x] Edited
    - [x] Deleted 
-   - [ ] Reactions
-     - [ ] Added
-     - [ ] Removed
+   - [X] Reactions
+     - [X] Added
+     - [X] Removed
  - [ ] Audit Log
  - [ ] Voice Activity
    - [ ] Joined Channel

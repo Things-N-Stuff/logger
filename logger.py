@@ -72,9 +72,9 @@ async def on_message_edit(before, after):
     if after.guild == None:
         return 0
 
-    # This event is triggered when a link gets an embed added or removed.
-    # The before and after messages should equal eachother, so check for this
-    # before continuing.
+    # on_message_edit is triggered when a link gets an embed added or removed.
+    # The before and after messages should still equal eachother, so check for
+    # this before continuing.
     if before.content == after.content:
         return 0
 
@@ -133,11 +133,45 @@ async def on_message_delete(message):
 # Log Reactions Added
 @bot.event
 async def on_reaction_add(reaction, user):
-    return 0
+    # Don't Log Direct Messages
+    if reaction.message.guild == None:
+        return 0
+
+    # Create Embed
+    em = discord.Embed(title=f"{user}",
+                       description=f"Reacted with:\n:{reaction.emoji.name}:\n" \
+                       f"[jump to message]({reaction.message.jump_url})",
+                       color=0xE3E5E8)
+    em.set_footer(text=f"Author ID: {user.id}\n" \
+                  f"Message ID: {reaction.message.id}")
+    em.set_image(url=reaction.emoji.url)
+    em.set_thumbnail(url=user.avatar_url)
+    em.set_author(name=f"Reaction Sent in #{reaction.message.channel}",
+                  icon_url=bot.user.avatar_url)
+
+    # Send Message to Log Channel
+    await send_to_log(channel_id=msglog_id, embed=em)
 
 # Log Reactions Removed
 @bot.event
 async def on_reaction_remove(reaction, user):
-    return 0
+    # Don't Log Direct Messages
+    if reaction.message.guild == None:
+        return 0
+
+    # Create Embed
+    em = discord.Embed(title=f"{user}",
+                       description=f"Reacted with:\n:{reaction.emoji.name}:\n" \
+                       f"[jump to message]({reaction.message.jump_url})",
+                       color=0xF04747)
+    em.set_footer(text=f"Author ID: {user.id}\n" \
+                  f"Message ID: {reaction.message.id}")
+    em.set_image(url=reaction.emoji.url)
+    em.set_thumbnail(url=user.avatar_url)
+    em.set_author(name=f"Reaction Removed in #{reaction.message.channel}",
+                  icon_url=bot.user.avatar_url)
+
+    # Send Message to Log Channel
+    await send_to_log(channel_id=msglog_id, embed=em)
 
 bot.run(bot_token)
