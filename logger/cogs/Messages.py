@@ -30,7 +30,7 @@ class Messages(commands.Cog):
             attachments = ""
             count = 1
             for a in message.attachments:
-                attachments += f"[attachment{count}]({a.url})\n"
+                attachments += f"\n[attachment{count}]({a.url})"
                 count += 1
         except Exception:
             attachments = ""
@@ -47,7 +47,7 @@ class Messages(commands.Cog):
 
         # Create embed
         embed = discord.Embed(title=f"{message.author}",
-                              description=f"{description}{message.content} {attachments}\n"
+                              description=f"{description}{message.content}{attachments}\n"
                               f"[jump to message]({message.jump_url})",
                               color=color)
         embed.set_footer(text=f"Author ID: {message.author.id}\nMessage ID: {message.id}")
@@ -76,7 +76,7 @@ class Messages(commands.Cog):
             attachments_old = ""
             count = 1
             for a in before.attachments:
-                attachments_old += f"[attachment{count}](a.url)\n"
+                attachments_old += f"\n[attachment{count}](a.url)"
                 count += 1
         except Exception:
             attachments_old = ""
