@@ -71,4 +71,5 @@ async def reload(ctx, cog: str):
 
 
 bot.load_extension('cogs.Messages')
+bot.load_extension('cogs.Reactions')
 bot.run(token)

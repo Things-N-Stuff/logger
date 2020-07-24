@@ -55,6 +55,7 @@ class Messages(commands.Cog):
         embed.set_author(name=f"Message {type} in #{message.channel}",
                          icon_url=self.bot.user.avatar_url)
 
+        # Send message to log channel
         await send_to_log(self.bot, embed, channel_id=message_log_id)
 
     @commands.Cog.listener()
@@ -76,7 +77,7 @@ class Messages(commands.Cog):
             attachments_old = ""
             count = 1
             for a in before.attachments:
-                attachments_old += f"\n[attachment{count}](a.url)"
+                attachments_old += f"\n[attachment{count}]({a.url})"
                 count += 1
         except Exception:
             attachments_old = ""
