@@ -38,12 +38,19 @@ class Reactions(commands.Cog):
         embed.set_author(name=f"Reaction {type} in #{reaction.message.channel}",
                          icon_url=self.bot.user.avatar_url)
 
-        # Unicode Emoji's won't have an attached url so we can't set
-        # an image for the embed when this happens.
+        # Unicode Emoji's won't have an attached url so we should grab
+        # the url from https://twemoji.maxcdn.com
         try:
             embed.set_image(url=reaction.emoji.url)
         except AttributeError:
-            pass
+            # Get the unicode of the emoji
+            # Some emojis are actually multiple emojis combined
+            unicodes = []
+            for emoji in reaction.emoji:
+                unicodes.append(f"{ord(emoji):x}")
+
+            filename = '-'.join(unicodes)
+            embed.set_image(url=f"https://twemoji.maxcdn.com/v/latest/72x72/{filename}.png")
 
         # Send message to log channel
         await send_to_log(self.bot, embed, channel_id=message_log_id)
