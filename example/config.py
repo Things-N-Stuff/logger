@@ -3,7 +3,7 @@ Move this file to the configuration directory. The configuration
 directory can be specified with the environment variable
 LOGGER_CONFIG_DIR if you want to change the location of configuration
 files. Otherwise, logger will look for configuration files in these two
-locations in this order if on a posix system (Linux, MacOS, Freebsd).
+locations in this order if on a posix system (Linux, BSD, macOS).
 
     $XDG_CONFIG_HOME/logger
     ~/.config/logger
@@ -11,7 +11,7 @@ locations in this order if on a posix system (Linux, MacOS, Freebsd).
 When on an nt system (Windows), logger will look for configuration
 files in the following directory.
 
-    %USERPROFILE%\\AppData\\Local\\Logger
+    %USERPROFILE%\\AppData\\Local\\logger
 """
 
 # This is required for the bot to do anything. You can aquire a bot

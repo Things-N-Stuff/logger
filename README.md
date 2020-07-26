@@ -1,6 +1,5 @@
 # Logger
-Bot to log messages and server activity on a server.
-This bot has only been tested on one server at a time.
+Discord bot to log activity on a server. This bot is meant to work on one server at a time.
 
 ## Logging Capabilities
  - [x] Messages
@@ -16,17 +15,18 @@ This bot has only been tested on one server at a time.
    - [ ] Left Channel
 
 ## Requirements
- - python3
- - [discord.py](https://github.com/Rapptz/discord.py)
+ - python3 (tested on python 3.7)
+ - [discord.py](https://github.com/Rapptz/discord.py) (tested on discord.py 1.3.4)
 
 ## Using the Bot
-If you haven't already, clone this repo by running the following command.
+Clone the repository or grab the source code from the releases tab.
 
-```
-git clone https://github.com/yemouu/logger
-```
+A configuration file will be necessary for the bot to run properly. An example configuration with
+all options is available in the example directory. On posix systems (Linux, BSD, macOS), the
+`config.py` will be expected in either `$XDG_CONFIG_HOME/logger` or `$HOME/.config/logger`
+depending on if `$XDG_CONFIG_HOME` is set. On nt systems (Windows), the `config.py` will be
+expected in `%USERPROFILE%\\AppData\\Local\\logger`. If the environment variable
+`LOGGER_CONFIG_DIR` is set, the configuration file can be placed anywhere on the filesystem.
 
-Before you can actually start using the bot, you will need to create your own `config.py`.
-The sample config is `config.py.sample` and holds all possible configuration options aswell as a comment describing what each is for.
-
-After configuration, just run `python logger.py`.
+After configuration, simply run `python logger`. If `python -V` is python 2.x.x, use `python3`
+instead of `python`.
