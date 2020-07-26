@@ -75,11 +75,16 @@ async def shutdown(ctx):
     """Allows the bot host to shutdown the bot. Useful if the host
     doesn't have access to the console
     """
-    if ctx.messsage.author.id == bot_host_id:
-        print("Shutdown issued by:")
-        print(f"{ctx.message.author}: {ctx.message.author.id}")
+    if ctx.message.author.id == bot_host_id:
+        print(f"Shutdown issued by: {ctx.message.author}({ctx.message.author.id})")
         await ctx.message.add_reaction('\U0001F44B')
-        sys.exit(0)
+
+        # Ensure that the bot has exited
+        try:
+            await bot.close()
+        except Exception as error:
+            print(error)
+            sys.exit(1)
 
 
 bot.load_extension('cogs.Messages')
