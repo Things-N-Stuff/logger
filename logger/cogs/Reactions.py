@@ -68,3 +68,4 @@ class Reactions(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Reactions(bot))
+    print("Reactions cog loaded")

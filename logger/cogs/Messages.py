@@ -39,7 +39,7 @@ class Messages(commands.Cog):
         description = ""
         if type == 'Edited':
             color = color_changed
-            description = f"Before:\n{before.content} {attachments_old}\n\nAfter:\n"
+            description = f"Before:\n{before.content}{attachments_old}\n\nAfter:\n"
         elif type == 'Deleted':
             color = color_deleted
         elif type == 'Sent':
@@ -93,3 +93,4 @@ class Messages(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Messages(bot))
+    print("Messages cog loaded")
