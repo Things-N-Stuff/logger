@@ -19,16 +19,16 @@ files in the following directory.
 bot_token = 'insert bot token here'
 
 # ID for channel where the bot will send audit logs
-# Leave empty to not log the audit log 
-audit_log_channel_id = 
+# Leave empty to not log the audit log
+audit_log_channel_id =
 
 # ID for channel where the bot will send message logs
 # Leave empty to not log messages
-message_log_channel_id = 
+message_log_channel_id =
 
 # ID for channel where the bot will send voice logs
 # Leave empty to not log voice activity
-voice_chat_log_channel_id = 
+voice_chat_log_channel_id =
 
 # Tuple of user ids that can issue special commands to the bot
 # The first id should be the id of the person hosting the bot
