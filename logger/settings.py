@@ -9,6 +9,7 @@ import sys
 # Use LOGGER_CONFIG_DIR if it is set within the environment
 if os.getenv("LOGGER_CONFIG_DIR") is not None:
     config_dir = os.getenv("LOGGER_CONFIG_DIR")
+
 # Set config dir based on platform if LOGGER_CONFIG_DIR is not available
 else:
     home_dir = os.path.expanduser("~")
@@ -22,9 +23,6 @@ else:
         sys.exit(1)
 
     config_dir = os.path.join(config_base, "logger")
-
-# this may not actually be needed
-# config_file = os.path.join(config_dir, "config.py")
 
 # Add the configuration directory to python path
 if config_dir not in sys.path:
@@ -53,3 +51,5 @@ color_changed = changed_color
 color_deleted = deleted_color
 
 command_prefix = bot_command_prefix
+
+version = '0.1.0'
