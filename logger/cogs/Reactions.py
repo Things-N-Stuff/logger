@@ -22,6 +22,11 @@ class Reactions(commands.Cog):
         if reaction.message.guild is None:
             return 0
 
+        # Differentiate between bots and normal users
+        bot_user = ""
+        if user.bot:
+            bot_user = " (bot)"
+
         # Action dependent
         if type == 'Deleted':
             color = color_deleted
@@ -29,7 +34,7 @@ class Reactions(commands.Cog):
             color = color_sent
 
         # Create embed
-        embed = discord.Embed(title=f"{user}",
+        embed = discord.Embed(title=f"{user}{bot_user}",
                               description=f"{reaction.emoji}\n"
                               f"[jump to message]({reaction.message.jump_url})",
                               color=color)

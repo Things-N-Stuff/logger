@@ -22,6 +22,11 @@ class Messages(commands.Cog):
         if message.guild is None:
             return 0
 
+        # Differentiate between bots and normal users
+        bot_user = ""
+        if message.author.bot:
+            bot_user = " (bot)"
+
         # Check for attachments in the message
         # Discord for desktop and web do not have the ability to send
         # multiple images within the same message. However, this is
@@ -46,7 +51,7 @@ class Messages(commands.Cog):
             color = color_sent
 
         # Create embed
-        embed = discord.Embed(title=f"{message.author}",
+        embed = discord.Embed(title=f"{message.author}{bot_user}",
                               description=f"{description}{message.content}{attachments}\n"
                               f"[jump to message]({message.jump_url})",
                               color=color)
